@@ -3,103 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Official Result Sheet</title>
+<title>Official Result 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  * { box-sizing: border-box; font-family: Arial, sans-serif; }
-  body { background: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-  .input-card { width: 100%; max-width: 750px; background: #ffffff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-  input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
-  button { background: #006633; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; }
+  body { font-family: Arial, sans-serif; background: #eee; padding: 20px; }
+  .main-card { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+  input { width: 48%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; }
+  button { background: #006633; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; font-weight: bold; }
   
-  #marksheetWrapper { width: 100%; max-width: 750px; background: white; padding: 20px; display: none; }
-  .gov-container { border: 1px solid #ccc; padding: 15px; }
-  .gov-header { background: #006633; color: white; display: flex; align-items: center; padding: 10px; margin-bottom: 10px; }
-  .gov-logo { width: 40px; height: 40px; background: white; border-radius: 50%; margin-right: 15px; text-align: center; font-size: 1.2rem; }
-  .session-bar { background: #7cc576; color: white; text-align: center; font-weight: bold; padding: 5px; margin-bottom: 10px; font-size: 0.9rem; }
-  .info-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-  .info-table td { border: 1px solid #ccc; padding: 6px; font-size: 0.8rem; }
-  .label-bg { background: #f3f4f6; font-weight: bold; width: 15%; }
-  .grade-title { text-align: center; font-weight: bold; padding: 5px; border: 1px solid #ccc; background: #f9fafb; margin-bottom: 5px; font-size: 0.9rem; }
-  .grade-table { width: 100%; border-collapse: collapse; }
-  .grade-table th, .grade-table td { border: 1px solid #ccc; padding: 6px; font-size: 0.8rem; }
-  .gov-footer { display: flex; justify-content: space-between; margin-top: 20px; font-size: 0.7rem; color: #666; border-top: 1px solid #ccc; padding-top: 10px; }
+  /* সরকারি ডিজাইন স্টাইল */
+  #pdfArea { padding: 20px; border: 1px solid #ccc; display: none; }
+  .header { background: #006633; color: white; padding: 15px; text-align: center; }
+  .sub-header { background: #7cc576; color: white; text-align: center; padding: 5px; font-weight: bold; margin: 10px 0; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  td, th { border: 1px solid #ccc; padding: 8px; font-size: 14px; }
+  .label { background: #f2f2f2; font-weight: bold; width: 25%; }
 </style>
 </head>
 <body>
 
-<div class="input-card">
-  <h3>Result Generator</h3>
-  <div class="form-grid">
-    <input type="text" id="rollNo" placeholder="Roll No">
-    <input type="text" id="regNo" placeholder="Registration No">
-    <input type="text" id="stuName" placeholder="Name">
-    <input type="text" id="fatName" placeholder="Father's Name">
-    <input type="text" id="motName" placeholder="Mother's Name">
-    <input type="text" id="board" placeholder="Board">
-    <input type="text" id="gpa" placeholder="GPA">
+<div class="main-card">
+  <h2>Result Generator 2026</h2>
+  <input type="text" id="name" placeholder="Student Name" style="width: 98%;">
+  <input type="text" id="roll" placeholder="Roll No">
+  <input type="text" id="gpa" placeholder="GPA">
+  
+  <div id="subFields">
+    <p><b>Subjects & Grades:</b></p>
+    <input type="text" class="sn" value="Bengali"> <input type="text" class="sg" placeholder="Grade">
+    <input type="text" class="sn" value="English"> <input type="text" class="sg" placeholder="Grade">
+    <input type="text" class="sn" value="Mathematics"> <input type="text" class="sg" placeholder="Grade">
   </div>
-  <button onclick="generateResult()">Generate Result</button>
-</div>
+  <button onclick="generate()">Generate & Download PDF</button>
 
-<div id="marksheetWrapper">
-  <div class="gov-container" id="pdfArea">
-    <div class="gov-header">
-      <div class="gov-logo">🇧🇩</div>
-      <div><strong>Ministry of Education</strong><br>Intermediate and Secondary Education Boards Bangladesh</div>
-    </div>
-    <div class="session-bar">SSC/DAKHIL/EQUIVALENT RESULT 2025</div>
-    
-    <table class="info-table">
-      <tr><td class="label-bg">Roll No</td><td id="mRoll"></td><td class="label-bg">Name</td><td id="mName"></td></tr>
-      <tr><td class="label-bg">Board</td><td id="mBoard"></td><td class="label-bg">Father's Name</td><td id="mFather"></td></tr>
-      <tr><td class="label-bg">Result</td><td>PASSED</td><td class="label-bg">Mother's Name</td><td id="mMother"></td></tr>
-      <tr><td class="label-bg">GPA</td><td id="mGpa"></td><td class="label-bg">Reg No</td><td id="mReg"></td></tr>
+  <div id="pdfArea">
+    <div class="header"><h3>Ministry of Education</h3><p>Intermediate and Secondary Education Boards Bangladesh</p></div>
+    <div class="sub-header">SSC/DAKHIL/EQUIVALENT RESULT 2026</div>
+    <table>
+      <tr><td class="label">Name</td><td id="pn"></td><td class="label">Roll</td><td id="pr"></td></tr>
+      <tr><td class="label">GPA</td><td id="pg" colspan="3"></td></tr>
     </table>
-
-    <div class="grade-title">Grade Sheet</div>
-    <table class="grade-table" id="gradeTable"></table>
-
-    <div class="gov-footer">
-      <div>©2005-2025 Ministry of Education.</div>
-      <div>Authored by: <strong>Junied Hossain</strong></div>
-    </div>
+    <table>
+      <thead><tr style="background:#ddd;"><th>Subject</th><th>Grade</th></tr></thead>
+      <tbody id="pt"></tbody>
+    </table>
+    <p style="font-size:10px; text-align:center; margin-top:20px;">©2005-2026 Ministry of Education. | Generated by Junied Hossain</p>
   </div>
 </div>
-<button id="pdfBtn" style="display:none; margin-top:10px; background:blue; color:white; border:none; padding:10px; width:100%; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="downloadPDF()">📥 Download PDF</button>
 
 <script>
-function generateResult() {
-  document.getElementById('mRoll').innerText = document.getElementById('rollNo').value;
-  document.getElementById('mReg').innerText = document.getElementById('regNo').value;
-  document.getElementById('mName').innerText = document.getElementById('stuName').value;
-  document.getElementById('mFather').innerText = document.getElementById('fatName').value;
-  document.getElementById('mMother').innerText = document.getElementById('motName').value;
-  document.getElementById('mBoard').innerText = document.getElementById('board').value;
-  document.getElementById('mGpa').innerText = document.getElementById('gpa').value;
-
-  const subjects = [
-    {code: "101", name: "BENGALI", grade: "A"}, {code: "107", name: "ENGLISH", grade: "A"},
-    {code: "109", name: "MATHEMATICS", grade: "A+"}, {code: "150", name: "BANGLADESH AND GLOBAL STUDIES", grade: "A+"},
-    {code: "112", name: "RELIGION AND MORAL EDUCATION", grade: "A-"}, {code: "136", name: "PHYSICS", grade: "A+"},
-    {code: "137", name: "CHEMISTRY", grade: "A+"}, {code: "138", name: "BIOLOGY", grade: "A+"},
-    {code: "154", name: "ICT", grade: "A+"}, {code: "126", name: "HIGHER MATHEMATICS", grade: "A+"},
-    {code: "147", name: "PHYSICAL EDUCATION", grade: "A+"}, {code: "156", name: "CAREER EDUCATION", grade: "A+"}
-  ];
-
-  let table = document.getElementById('gradeTable');
-  table.innerHTML = '<tr><th>Code</th><th>Subject</th><th>Grade</th></tr>';
-  subjects.forEach(sub => {
-    let row = table.insertRow();
-    row.innerHTML = `<td>${sub.code}</td><td>${sub.name}</td><td>${sub.grade}</td>`;
-  });
-  document.getElementById('marksheetWrapper').style.display = 'block';
-  document.getElementById('pdfBtn').style.display = 'block';
-}
-function downloadPDF() {
-  const opt = { margin: 5, filename: 'Result.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 3, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-  html2pdf().set(opt).from(document.getElementById('pdfArea')).save();
+function generate() {
+  document.getElementById('pn').innerText = document.getElementById('name').value;
+  document.getElementById('pr').innerText = document.getElementById('roll').value;
+  document.getElementById('pg').innerText = document.getElementById('gpa').value;
+  
+  let tbody = document.getElementById('pt');
+  tbody.innerHTML = "";
+  let sn = document.getElementsByClassName('sn');
+  let sg = document.getElementsByClassName('sg');
+  
+  for(let i=0; i<sn.length; i++) {
+    if(sn[i].value) tbody.innerHTML += `<tr><td>${sn[i].value}</td><td>${sg[i].value}</td></tr>`;
+  }
+  
+  document.getElementById('pdfArea').style.display = 'block';
+  html2pdf().from(document.getElementById('pdfArea')).save('Official_Result_2026.pdf');
 }
 </script>
 </body>
