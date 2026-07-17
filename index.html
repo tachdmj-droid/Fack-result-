@@ -1,68 +1,73 @@
-CREATE DATABASE education_result;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Education Result Portal</title>
 
-USE education_result;
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 
-CREATE TABLE students (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    exam VARCHAR(20) NOT NULL,
-    year INT NOT NULL,
-    board VARCHAR(50) NOT NULL,
-    roll VARCHAR(20) NOT NULL UNIQUE,
-    registration VARCHAR(30) NOT NULL UNIQUE,
-    student_name VARCHAR(100) NOT NULL,
-    father_name VARCHAR(100),
-    mother_name VARCHAR(100),
-    institute VARCHAR(150),
-    group_name VARCHAR(50),
-    gpa DECIMAL(3,2),
-    result_status VARCHAR(20),
-    bangla VARCHAR(5),
-    english VARCHAR(5),
-    mathematics VARCHAR(5),
-    science VARCHAR(5),
-    ict VARCHAR(5),
-    religion VARCHAR(5),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+</head>
+<body>
 
-INSERT INTO students (
-exam,
-year,
-board,
-roll,
-registration,
-student_name,
-father_name,
-mother_name,
-institute,
-group_name,
-gpa,
-result_status,
-bangla,
-english,
-mathematics,
-science,
-ict,
-religion
-)
-VALUES
-(
-'SSC',
-2025,
-'Dhaka',
-'123456',
-'654321',
-'Rahim Ahmed',
-'Abdul Karim',
-'Ayesha Begum',
-'ABC High School',
-'Science',
-'5.00',
-'PASSED',
-'A+',
-'A+',
-'A+',
-'A+',
-'A+',
-'A+'
-);
+<header>
+    <div class="container">
+        <h1>Education Result Portal</h1>
+        <p>Student Examination Result System</p>
+    </div>
+</header>
+
+<section class="search-section">
+
+<div class="search-box">
+
+<h2>
+  <h2>Search Your Result</h2>
+
+<form action="result.html">
+
+<label>Examination</label>
+<select required>
+<option>SSC</option>
+<option>HSC</option>
+</select>
+
+<label>Year</label>
+<select required>
+<option>2025</option>
+<option>2024</option>
+</select>
+
+<label>Board</label>
+<select required>
+<option>Dhaka</option>
+<option>Chattogram</option>
+<option>Rajshahi</option>
+<option>Khulna</option>
+<option>Sylhet</option>
+<option>Barishal</option>
+<option>Dinajpur</option>
+<option>Mymensingh</option>
+</select>
+
+<label>Roll Number</label>
+<input type="number" placeholder="Enter Roll Number" required>
+
+<label>Registration Number</label>
+<input type="number" placeholder="Enter Registration Number" required>
+
+<button type="submit">Search Result</button>
+
+</form>
+
+</div>
+
+</section>
+
+<footer>
+<p>© 2025 Education Result Portal. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>  
