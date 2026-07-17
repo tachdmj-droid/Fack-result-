@@ -79,9 +79,7 @@
     <div class="grade-title">Grade Sheet</div>
     <table class="grade-table" id="gradeTable">
       <tr><th>Code</th><th>Subject</th><th>Grade</th></tr>
-      <tr><td>101</td><td>BENGALI</td><td>A</td></tr>
-      <tr><td>107</td><td>ENGLISH</td><td>A</td></tr>
-      <tr><td>109</td><td>MATHEMATICS</td><td>A+</td></tr>
+      <!-- সাবজেক্টগুলো এখানে অটোমেটিক আসবে -->
     </table>
 
     <div class="gov-footer">
@@ -100,9 +98,34 @@ function generateResult() {
   document.getElementById('mMother').innerText = document.getElementById('motName').value;
   document.getElementById('mBoard').innerText = document.getElementById('board').value;
   document.getElementById('mGpa').innerText = document.getElementById('gpa').value;
+
+  const subjects = [
+    {code: "101", name: "BENGALI", grade: "A"},
+    {code: "107", name: "ENGLISH", grade: "A"},
+    {code: "109", name: "MATHEMATICS", grade: "A+"},
+    {code: "150", name: "BANGLADESH AND GLOBAL STUDIES", grade: "A+"},
+    {code: "112", name: "RELIGION AND MORAL EDUCATION", grade: "A-"},
+    {code: "136", name: "PHYSICS", grade: "A+"},
+    {code: "137", name: "CHEMISTRY", grade: "A+"},
+    {code: "138", name: "BIOLOGY", grade: "A+"},
+    {code: "154", name: "ICT", grade: "A+"},
+    {code: "126", name: "HIGHER MATHEMATICS", grade: "A+"},
+    {code: "147", name: "PHYSICAL EDUCATION", grade: "A+"},
+    {code: "156", name: "CAREER EDUCATION", grade: "A+"}
+  ];
+
+  let table = document.getElementById('gradeTable');
+  table.innerHTML = '<tr><th>Code</th><th>Subject</th><th>Grade</th></tr>';
+  
+  subjects.forEach(sub => {
+    let row = table.insertRow();
+    row.innerHTML = `<td>${sub.code}</td><td>${sub.name}</td><td>${sub.grade}</td>`;
+  });
+
   document.getElementById('marksheetWrapper').style.display = 'block';
   document.getElementById('pdfBtn').style.display = 'block';
 }
+
 function downloadPDF() {
   html2pdf().from(document.getElementById('pdfArea')).save('Result_Sheet.pdf');
 }
