@@ -1,391 +1,248 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>National Education Board Result Archive</title>
-<!-- PDF ডাউনলোডের জন্য প্রয়োজনীয় অফিশিয়াল স্ক্রিপ্ট -->
+<title>Education Board Bangladesh - Result</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
   :root {
-    --primary: #006633;
-    --primary-dark: #004d26;
-    --accent: #ffcc00;
     --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-    --card-bg: rgba(255, 255, 255, 0.98);
   }
-
-  * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+  * { box-sizing: border-box; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+  body { background: var(--bg-gradient); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   
-  body {
-    background: var(--bg-gradient);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    color: #1e293b;
-  }
-
-  .main-card {
-    width: 100%;
-    max-width: 750px;
-    background: var(--card-bg);
-    border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 20px;
-  }
-
-  .brand-header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    padding: 30px 20px;
-    text-align: center;
-    border-bottom: 5px solid var(--accent);
-  }
-  .brand-header h1 { font-size: 1.6rem; font-weight: 700; text-transform: uppercase; }
-  .brand-header p { font-size: 0.95rem; margin-top: 6px; color: #cbd5e1; }
-
-  .content-body { padding: 30px 25px; }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 15px;
-  }
+  .input-card { width: 100%; max-width: 750px; background: #ffffff; border-radius: 12px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
+  .input-card h3 { margin-bottom: 15px; color: #006633; border-bottom: 2px solid #006633; padding-bottom: 5px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
   @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-
   .input-wrapper { display: flex; flex-direction: column; }
-  .input-wrapper label { font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 6px; }
+  .input-wrapper label { font-size: 0.85rem; font-weight: bold; color: #334155; margin-bottom: 5px; }
+  .input-wrapper input, .input-wrapper select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; }
+  .btn-submit { background: #006633; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
   
-  .input-wrapper input, .input-wrapper select {
-    padding: 12px;
-    border: 2px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    outline: none;
-    transition: all 0.3s;
-    background: #f8fafc;
-  }
-  .input-wrapper input:focus, .input-wrapper select:focus {
-    border-color: var(--primary);
-    background: white;
-  }
+  /* সরকারি অফিশিয়াল মার্কশিট স্টাইল */
+  #marksheetWrapper { width: 100%; max-width: 750px; background: white; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; border-radius: 8px; }
+  .gov-container { border: 1px solid #d1d5db; background: #ffffff; padding: 15px; }
+  
+  /* সবুজ সরকারি হেডার */
+  .gov-header { background: #006633; color: white; display: flex; align-items: center; padding: 12px 20px; margin-bottom: 20px; }
+  .gov-logo { width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-right: 20px; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+  .gov-logo::after { content: "🇧🇩"; } /* লোগোর জায়গায় রিয়েলিস্টিক ফ্ল্যাগ সিম্বল */
+  .header-text h1 { font-size: 1.4rem; font-weight: bold; margin-bottom: 2px; }
+  .header-text p { font-size: 0.95rem; opacity: 0.9; font-weight: bold; }
+  
+  /* সেশন বার (সবুজ জিপসি পটভূমি) */
+  .session-bar { background: #7cc576; color: white; text-align: center; font-weight: bold; padding: 6px; font-size: 1rem; margin-bottom: 15px; text-transform: uppercase; }
+  
+  /* সরকারি মেইন টেবিল স্টাইল */
+  .info-table, .grade-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+  .info-table td { border: 1px solid #e5e7eb; padding: 8px 12px; font-size: 0.85rem; text-transform: uppercase; background: #f9fafb; }
+  .info-table td.label-bg { background: #f3f4f6; width: 18%; font-weight: bold; color: #374151; }
+  .info-table td.val-bg { width: 32%; color: #111827; }
+  
+  .grade-title { text-align: center; font-weight: bold; font-size: 1.1rem; padding: 8px; color: #1f2937; margin-bottom: 5px; }
+  
+  .grade-table th, .grade-table td { border: 1px solid #d1d5db; padding: 8px 12px; font-size: 0.85rem; text-align: left; }
+  .grade-table th { background: #d1d5db; color: #374151; font-weight: bold; }
+  .grade-table tr:nth-child(even) { background: #f9fafb; }
+  .grade-table td.center-text { text-align: center; font-weight: bold; }
 
-  .btn-get-result {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    border: none;
-    padding: 14px;
-    width: 100%;
-    border-radius: 8px;
-    font-size: 1.05rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 10px;
-  }
-  .btn-get-result:hover { transform: translateY(-2px); }
+  /* ফুটার পার্ট */
+  .gov-footer { border-top: 1px solid #e5e7eb; padding-top: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #6b7280; margin-top: 25px; }
+  .teletalk-box { display: flex; align-items: center; gap: 5px; font-weight: bold; color: #006633; font-size: 0.8rem; }
+  .teletalk-logo { background: #8cc63f; color: white; padding: 3px 8px; border-radius: 4px; font-style: italic; }
 
-  .btn-download {
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    color: white;
-    border: none;
-    padding: 12px;
-    width: 100%;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 15px;
-    display: none;
-    text-align: center;
-  }
-  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-
-  .loading-container {
-    display: none;
-    text-align: center;
-    padding: 30px 0;
-  }
-  .modern-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #e2e8f0;
-    border-top: 5px solid var(--primary);
-    border-radius: 50%;
-    margin: 0 auto 10px;
-    animation: rotate 1s linear infinite;
-  }
-  @keyframes rotate { 100% { transform: rotate(360deg); } }
-
-  /* অফিশিয়াল ডিজাইনের অরিজিনাল মার্কশিট কার্ড */
-  .result-display-card {
-    margin-top: 25px;
-    display: none;
-    background: #fffdf6; 
-    border: 2px solid #cbd5e1;
-    padding: 25px;
-    border-radius: 8px;
-  }
-
-  .marksheet-header {
-    text-align: center;
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-  }
-  .marksheet-header h2 { color: var(--primary); font-size: 1.4rem; font-weight: bold; }
-
-  .section-title {
-    background: #e2e8f0;
-    padding: 8px 12px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #334155;
-    margin: 15px 0 10px;
-  }
-
-  .data-table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 15px; }
-  .data-table td, .data-table th { padding: 10px 12px; font-size: 0.9rem; border: 1px solid #cbd5e1; text-align: left; }
-  .data-table th { background: #f1f5f9; color: #334155; font-weight: 600; }
-
-  .signature-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 40px;
-    padding-top: 10px;
-  }
-  .signature-box {
-    text-align: center;
-    border-top: 1px dashed #334155;
-    width: 220px;
-    padding-top: 5px;
-    font-size: 0.85rem;
-    color: #334155;
-  }
-
-  .junied-footer {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.85rem;
-    margin-top: 10px;
-  }
-  .junied-footer strong { color: var(--accent); }
+  .btn-download-pdf { background: #2563eb; color: white; border: none; padding: 12px; width: 100%; max-width: 750px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 15px; display: none; text-align: center; }
 </style>
 </head>
 <body>
 
-<div class="main-card">
-  <div class="brand-header">
-    <h1>Ministry of Education, Bangladesh</h1>
-    <p>Intermediate and Secondary Education Boards Result Archive</p>
+<!-- কাস্টমার ইনপুট ফরম ফর্ম -->
+<div class="input-card" id="inputFormCard">
+  <h3>Official Result Configuration Form</h3>
+  <div class="form-grid">
+    <div class="input-wrapper"><label>Roll No</label><input type="number" id="rollNo" value="101342"></div>
+    <div class="input-wrapper"><label>Name</label><input type="text" id="stuName" value="SHANTO MALAKER"></div>
   </div>
+  <div class="form-grid">
+    <div class="input-wrapper"><label>Father's Name</label><input type="text" id="fatName" value="RAJIB MALAKER"></div>
+    <div class="input-wrapper"><label>Mother's Name</label><input type="text" id="motName" value="SHIPRA MALAKER"></div>
+  </div>
+  <div class="form-grid">
+    <div class="input-wrapper">
+      <label>Board</label>
+      <select id="boardType">
+        <option value="CHITTAGONG">CHITTAGONG</option>
+        <option value="DHAKA">DHAKA</option>
+        <option value="RAJSHAHI">RAJSHAHI</option>
+        <option value="COMILLA">COMILLA</option>
+      </select>
+    </div>
+    <div class="input-wrapper"><label>Registration No</label><input type="number" id="regNo" value="16124578"></div>
+  </div>
+  <div class="form-grid">
+    <div class="input-wrapper">
+      <label>Group</label>
+      <select id="groupType">
+        <option value="SCIENCE">SCIENCE</option>
+        <option value="HUMANITIES">HUMANITIES</option>
+        <option value="BUSINESS STUDIES">BUSINESS STUDIES</option>
+      </select>
+    </div>
+    <div class="input-wrapper"><label>Date of Birth</label><input type="text" id="dob" value="29-01-08"></div>
+  </div>
+  <div class="form-grid">
+    <div class="input-wrapper"><label>Institute Name</label><input type="text" id="instName" value="ABDUS SOBHAN RAHAT ALI HIGH SCHOOL"></div>
+    <div class="input-wrapper">
+      <label>Target GPA</label>
+      <select id="targetGpa">
+        <option value="5.00">5.00</option>
+        <option value="4.94">4.94</option>
+        <option value="4.50">4.50</option>
+        <option value="4.00">4.00</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn-submit" onclick="generateGovResult()">Submit</button>
+</div>
 
-  <div class="content-body">
-    <!-- ইনপুট ফর্ম -->
-    <div class="form-grid">
-      <div class="input-wrapper">
-        <label>Student's Name</label>
-        <input type="text" id="stuName" placeholder="Enter Student Name" value="Rahim Ali">
-      </div>
-      <div class="input-wrapper">
-        <label>Father's Name</label>
-        <input type="text" id="fatName" placeholder="Enter Father's Name" value="Karim Ali">
+<!-- ১০০% হুবহু অফিশিয়াল ডিজাইনের রেজাল্ট শীট -->
+<div id="marksheetWrapper">
+  <div class="gov-container" id="pdfArea">
+    <div class="gov-header">
+      <div class="gov-logo"></div>
+      <div class="header-text">
+        <h1>Ministry of Education</h1>
+        <p>Intermediate and Secondary Education Boards Bangladesh</p>
       </div>
     </div>
 
-    <div class="form-grid">
-      <div class="input-wrapper">
-        <label>Mother's Name</label>
-        <input type="text" id="motName" placeholder="Enter Mother's Name" value="Rina Begum">
-      </div>
-      <div class="input-wrapper">
-        <label>Education Board</label>
-        <select id="boardType">
-          <option value="Dhaka">Dhaka</option>
-          <option value="Chattogram">Chattogram</option>
-          <option value="Rajshahi">Rajshahi</option>
-          <option value="Sylhet">Sylhet</option>
-          <option value="Cumilla">Cumilla</option>
-        </select>
-      </div>
-    </div>
+    <div class="session-bar" id="mSessionTitle">SSC/Dakhil/Equivalent Result 2025</div>
 
-    <div class="form-grid">
-      <div class="input-wrapper">
-        <label>Roll Number</label>
-        <input type="number" id="rollNo" placeholder="Enter Roll" value="102456">
-      </div>
-      <div class="input-wrapper">
-        <label>Registration Number</label>
-        <input type="number" id="regNo" placeholder="Enter Registration" value="16124578">
-      </div>
-    </div>
+    <!-- স্টুডেন্ট ইনফো টেবিল -->
+    <table class="info-table">
+      <tr>
+        <td class="label-bg">Roll No</td><td class="val-bg" id="mRoll"></td>
+        <td class="label-bg">Name</td><td class="val-bg" id="mName"></td>
+      </tr>
+      <tr>
+        <td class="label-bg">Board</td><td class="val-bg" id="mBoard"></td>
+        <td class="label-bg">Father's Name</td><td class="val-bg" id="mFather"></td>
+      </tr>
+      <tr>
+        <td class="label-bg">Group</td><td class="val-bg" id="mGroup"></td>
+        <td class="label-bg">Mother's Name</td><td class="val-bg" id="mMother"></td>
+      </tr>
+      <tr>
+        <td class="label-bg">Type</td><td class="val-bg">REGULAR</td>
+        <td class="label-bg">Date of Birth</td><td class="val-bg" id="mDob"></td>
+      </tr>
+      <tr>
+        <td class="label-bg">Result</td><td class="val-bg" style="font-weight: bold;">PASSED</td>
+        <td class="label-bg">Institute</td><td class="val-bg" id="mInst" style="font-size: 0.75rem;"></td>
+      </tr>
+      <tr>
+        <td class="label-bg">GPA</td><td class="val-bg" style="font-weight: bold;" id="mGpa"></td>
+        <td class="label-bg"></td><td class="val-bg"></td>
+      </tr>
+    </table>
 
-    <div class="form-grid">
-      <div class="input-wrapper">
-        <label>Passing Year</label>
-        <select id="examYear">
-          <option value="2026">2026</option>
-          <option value="2025">2025</option>
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-        </select>
-      </div>
-      <div class="input-wrapper">
-        <label>Expected Result (GPA)</label>
-        <select id="desiredGpa">
-          <option value="5.00">GPA 5.00 (Golden / A+)</option>
-          <option value="4.50">GPA 4.50 (Excellent / A)</option>
-          <option value="4.00">GPA 4.00 (Very Good / A)</option>
-          <option value="3.50">GPA 3.50 (Good / A-)</option>
-          <option value="2.50">GPA 2.50 (Passed / C)</option>
-        </select>
-      </div>
-    </div>
+    <div class="grade-title">Grade Sheet</div>
 
-    <button class="btn-get-result" onclick="generateOfficialMarksheet()">Generate Official Marksheet</button>
+    <!-- গ্রেড টেবিল -->
+    <table class="grade-table" id="gradeTableBody">
+      <!-- স্ক্রিপ্ট দিয়ে ডেটা বসবে -->
+    </table>
 
-    <!-- লোডিং এনিমেশন -->
-    <div class="loading-container" id="loadingSystem">
-      <div class="modern-spinner"></div>
-      <p style="color: var(--primary); font-weight: 600;">Extracting From Central Database...</p>
-    </div>
-
-    <!-- অরিজিনাল দেখতে মার্কশিট এরিয়া -->
-    <div class="result-display-card" id="resultCard">
-      <div id="pdfContent" style="padding: 10px; background: #fffdf6;">
-        <div class="marksheet-header">
-          <h2>BOARD OF INTERMEDIATE AND SECONDARY EDUCATION</h2>
-          <p style="font-weight: 600; font-size: 0.9rem;" id="lblExamTitle">SECONDARY SCHOOL CERTIFICATE EXAMINATION</p>
-        </div>
-
-        <div class="section-title">STUDENT OFFICIAL INFORMATION</div>
-        <table class="data-table">
-          <tr><td width="30%"><strong>Student's Name</strong></td><td id="mName" style="text-transform: uppercase;"></td></tr>
-          <tr><td><strong>Father's Name</strong></td><td id="mFather" style="text-transform: uppercase;"></td></tr>
-          <tr><td><strong>Mother's Name</strong></td><td id="mMother" style="text-transform: uppercase;"></td></tr>
-          <tr><td><strong>Board / Year</strong></td><td><span id="mBoard"></span> / <span id="mYear"></span></td></tr>
-          <tr><td><strong>Roll / Reg No</strong></td><td><span id="mRoll"></span> / <span id="mReg"></span></td></tr>
-          <tr><td><strong>Final Result</strong></td><td><strong style="color: #15803d; font-size: 1.1rem;" id="mGpa"></strong> (PASSED)</td></tr>
-        </table>
-
-        <div class="section-title">SUBJECT-WISE GRADE & OBTAINED MARKS</div>
-        <table class="data-table" id="marksTable"></table>
-
-        <!-- কন্ট্রোলার সিগনেচার -->
-        <div class="signature-container">
-          <div class="signature-box">
-            <p style="font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #1e3a8a; font-size: 1rem; font-style: italic; margin-bottom: 2px;">Junied Hossain</p>
-            <strong>Controller of Examinations</strong>
-          </div>
-        </div>
-      </div>
-      
-      <!-- পিডিএফ ডাউনলোড বাটন -->
-      <button class="btn-download" id="downloadBtn" onclick="downloadMarksheetPDF()">📥 Download Marksheet (PDF)</button>
+    <!-- অফিশিয়াল ফুটার ও টেলিটক ব্র্যান্ডিং -->
+    <div class="gov-footer">
+      <div>©2006-2026 Ministry of Education, All rights reserved.</div>
+      <div class="teletalk-box">Powered by <span class="teletalk-logo">teletalk</span></div>
     </div>
   </div>
 </div>
 
-<div class="junied-footer">
-  <p>System Developed & Automated by: <strong>Junied Hossain</strong></p>
-</div>
+<button class="btn-download-pdf" id="pdfBtn" onclick="downloadGovPDF()">📥 Download Marksheet (PDF)</button>
 
 <script>
-function generateOfficialMarksheet() {
-  const name = document.getElementById('stuName').value.trim();
-  const father = document.getElementById('fatName').value.trim();
-  const mother = document.getElementById('motName').value.trim();
+function generateGovResult() {
+  const roll = document.getElementById('rollNo').value;
+  const name = document.getElementById('stuName').value;
+  const father = document.getElementById('fatName').value;
+  const mother = document.getElementById('motName').value;
   const board = document.getElementById('boardType').value;
-  const roll = document.getElementById('rollNo').value.trim();
-  const reg = document.getElementById('regNo').value.trim();
-  const year = document.getElementById('examYear').value;
-  const gpa = document.getElementById('desiredGpa').value;
+  const reg = document.getElementById('regNo').value;
+  const group = document.getElementById('groupType').value;
+  const dob = document.getElementById('dob').value;
+  const inst = document.getElementById('instName').value;
+  const gpa = document.getElementById('targetGpa').value;
 
-  if(!name || !father || !mother || !roll || !reg) {
-    alert("অনুগ্রহ করে সবকটি ঘর সঠিকভাবে পূরণ করুন!");
-    return;
-  }
+  // ডেটা ম্যাপিং
+  document.getElementById('mRoll').innerText = roll;
+  document.getElementById('mName').innerText = name;
+  document.getElementById('mBoard').innerText = board;
+  document.getElementById('mFather').innerText = father;
+  document.getElementById('mGroup').innerText = group;
+  document.getElementById('mMother').innerText = mother;
+  document.getElementById('mDob').innerText = dob;
+  document.getElementById('mInst').innerText = inst;
+  document.getElementById('mGpa').innerText = gpa;
 
-  const resultCard = document.getElementById('resultCard');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const loadingSystem = document.getElementById('loadingSystem');
+  // সাবজেক্ট লিস্ট জেনারেট (১০০% স্ক্রিনশটের মতো কোড সহ)
+  let subjects = [
+    {code: "101", name: "BENGALI"},
+    {code: "107", name: "ENGLISH"},
+    {code: "109", name: "MATHEMATICS"},
+    {code: "150", name: "BANGLADESH AND GLOBAL STUDIES"},
+    {code: "112", name: "RELIGION AND MORAL EDUCATION (HINDU)"},
+    {code: "136", name: "PHYSICS"},
+    {code: "137", name: "CHEMISTRY"},
+    {code: "138", name: "BIOLOGY"},
+    {code: "154", name: "INFORMATION AND COMMUNICATION TECHNOLOGY"},
+    {code: "126", name: "HIGHER MATHEMATICS"},
+    {code: "147", name: "PHYSICAL EDUCATION, HEALTH & SPORTS"},
+    {code: "156", name: "CAREER EDUCATION"}
+  ];
+
+  let tableContent = `<tr><th width="15%">Code</th><th width="65%">Subject</th><th width="20%">Grade</th></tr>`;
   
-  resultCard.style.display = "none";
-  downloadBtn.style.display = "none";
-  loadingSystem.style.display = "block";
+  let count = 0;
+  subjects.forEach(sub => {
+    let grade = "A+";
+    if (gpa === "4.94" && (count === 3 || count === 4)) {
+      grade = "A-"; // স্ক্রিনশটের মতো ৪.৯৪ মেলাতে কিছু 'A' বা 'A-' ব্যালেন্স লজিক
+    } else if (gpa === "4.50" && count % 3 === 0) {
+      grade = "A";
+    } else if (gpa === "4.00" && count % 2 === 0) {
+      grade = "A-";
+    }
+    tableContent += `<tr><td>${sub.code}</td><td>${sub.name}</td><td style="font-weight:bold;">${grade}</td></tr>`;
+    count++;
+  });
 
-  setTimeout(() => {
-    loadingSystem.style.display = "none";
-
-    document.getElementById('mName').innerText = name;
-    document.getElementById('mFather').innerText = father;
-    document.getElementById('mMother').innerText = mother;
-    document.getElementById('mBoard').innerText = board;
-    document.getElementById('mYear').innerText = year;
-    document.getElementById('mRoll').innerText = roll;
-    document.getElementById('mReg').innerText = reg;
-    document.getElementById('mGpa').innerText = "GPA " + gpa;
-    document.getElementById('lblExamTitle').innerText = `SECONDARY SCHOOL CERTIFICATE EXAMINATION, ${year}`;
-
-    let subjects = ["Bangla", "English", "Mathematics", "Science", "Social Science", "Religion"];
-    let marksHtml = `<tr><th>Subject Name</th><th>Letter Grade</th><th>Obtained Marks</th></tr>`;
-
-    subjects.forEach(sub => {
-      let score = 82;
-      let grade = "A+";
-
-      if (gpa === "5.00") {
-        score = Math.floor(Math.random() * 15) + 81; 
-        grade = "A+";
-      } else if (gpa === "4.50") {
-        score = Math.floor(Math.random() * 10) + 71; 
-        grade = "A";
-      } else if (gpa === "4.00") {
-        score = Math.floor(Math.random() * 10) + 61; 
-        grade = "A-";
-      } else if (gpa === "3.50") {
-        score = Math.floor(Math.random() * 10) + 51; 
-        grade = "B";
-      } else {
-        score = Math.floor(Math.random() * 10) + 41; 
-        grade = "C";
-      }
-
-      marksHtml += `<tr><td><strong>${sub}</strong></td><td>${grade}</td><td>${score}</td></tr>`;
-    });
-
-    document.getElementById('marksTable').innerHTML = marksHtml;
-    resultCard.style.display = "block";
-    downloadBtn.style.display = "block"; // রেজাল্ট আসার পর বাটনটি দেখাবে
-  }, 1500);
+  document.getElementById('gradeTableBody').innerHTML = tableContent;
+  
+  // ডিসপ্লে অন করা
+  document.getElementById('marksheetWrapper').style.display = "block";
+  document.getElementById('pdfBtn').style.display = "block";
+  
+  // স্মুথ স্ক্রোল ডাউন
+  document.getElementById('marksheetWrapper').scrollIntoView({ behavior: 'smooth' });
 }
 
-// পিডিএফ ডাউনলোড করার ম্যাজিক ফাংশন
-function downloadMarksheetPDF() {
-  const element = document.getElementById('pdfContent');
+function downloadGovPDF() {
+  const element = document.getElementById('pdfArea');
   const roll = document.getElementById('mRoll').innerText;
-  
   const options = {
-    margin:       10,
-    filename:     `Marksheet_Roll_${roll}.pdf`,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
+    margin:       8,
+    filename:     `Official_Result_Roll_${roll}.pdf`,
+    image:        { type: 'jpeg', quality: 1.0 },
+    html2canvas:  { scale: 2, useCORS: true },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
-
   html2pdf().set(options).from(element).save();
 }
 </script>
-
 </body>
 </html>
