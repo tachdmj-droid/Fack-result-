@@ -67,7 +67,7 @@
     </div>
   </div>
 </div>
-<button id="pdfBtn" style="display:none; margin-top:10px; background:blue;" onclick="downloadPDF()">📥 Download PDF</button>
+<button id="pdfBtn" style="display:none; margin-top:10px; background:blue; color:white; border:none; padding:10px; width:100%; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="downloadPDF()">📥 Download PDF</button>
 
 <script>
 function generateResult() {
@@ -97,7 +97,10 @@ function generateResult() {
   document.getElementById('marksheetWrapper').style.display = 'block';
   document.getElementById('pdfBtn').style.display = 'block';
 }
-function downloadPDF() { html2pdf().from(document.getElementById('pdfArea')).save('Result.pdf'); }
+function downloadPDF() {
+  const opt = { margin: 5, filename: 'Result.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 3, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+  html2pdf().set(opt).from(document.getElementById('pdfArea')).save();
+}
 </script>
 </body>
 </html>
