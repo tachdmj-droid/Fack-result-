@@ -1,371 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Education Result Portal</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<header>
-    <div class="container">
-        <div class="logo">
-            <h2>Education Result Portal</h2>
-            <p>Student Examination Result System</p>
-        </div>
-    </div>
-</header>
-
-<section class="hero">
-
-<div class="search-box">
-
-<h2>Result Search</h2>
-
-<form action="result.html">
-
-<div class="input-group">
-<label>Examination</label>
-
-<select required>
-
-<option>SSC</option>
-<option>HSC</option>
-<option>JSC</option>
-
-</select>
-</div>
-
-<div class="input-group">
-<label>Year</label>
-
-<select required>
-
-<option>2025</option>
-<option>2024</option>
-<option>2023</option>
-
-</select>
-
-</div>
-
-<div class="input-group">
-
-<label>Board</label>
-
-<select required>
-
-<option>Dhaka</option>
-<option>Rajshahi</option>
-<option>Chattogram</option>
-<option>Khulna</option>
-<option>Barishal</option>
-<option>Sylhet</option>
-<option>Din
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Search Result</title>
-
-<link rel="stylesheet" href="style.css">
-
-<script>
-function searchResult(){
-
-let roll=document.getElementById("roll").value;
-let reg=document.getElementById("reg").value;
-
-if(roll=="123456" && reg=="654321"){
-
-window.location.href="result.html";
-
-}else{
-
-alert("Result Not Found!");
-
-}
-
-}
-</script>
-
-</head>
-<body>
-
-<div class="search-page">
-
-<h2>Student Result Search</h2>
-
-<input
-type="number"
-id="roll"
-placeholder="Enter Roll Number">
-
-<input
-type="number"
-id="reg"
-placeholder="Enter Registration Number">
-
-<button onclick="searchResult()">
-Search Result
-</button>
-
-<br><br>
-
-<a href="index.html">
-← Back Home
-</a>
-
-</div>
-
-</body>
-</html> 
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Search Result</title>
-
-<link rel="stylesheet" href="style.css">
-
-<script>
-function searchResult(){
-
-let exam=document.getElementById("exam").value;
-let year=document.getElementById("year").value;
-let board=document.getElementById("board").value;
-let roll=document.getElementById("roll").value;
-let reg=document.getElementById("reg").value;
-
-if(roll==="123456" && reg==="654321"){
-
-window.location.href="result.html";
-
-}else{
-
-alert("No Result Found!");
-
-}
-
-}
-</script>
-
-</head>
-<body>
-
-<div class="search-box">
-
-<h1>Education Result Portal</h1>
-
-<div class="card">
-
-<h2>Search Your Result</h2>
-
-<label>Examination</label>
-
-<select id="exam">
-
-<option>SSC</option>
-<option>HSC</option>
-
-</select>
-
-<label>Year</label>
-
-<select id="year">
-
-<option>2025</option>
-<option>2024</option>
-<option>2023</option>
-
-</select>
-
-<label>Board</label>
-
-<select id="board">
-
-<option>Dhaka</option>
-<option>Rajshahi</option>
-<option>Chattogram</option>
-<option>Khulna</option>
-<option>Barishal</option>
-<option>Sylhet</option>
-<option>Dinajpur</option>
-<option>Mymensingh</option>
-
-</select>
-
-<label>Roll</label>
-
-<input
-type="number"
-id="roll"
-placeholder="Enter Roll">
-
-<label>Registration</label>
-
-<input
-type="number"
-id="reg"
-placeholder="Enter Registration Number">
-
-<button onclick="searchResult()">
-Search Result
-</button>
-
-<br><br>
-
-<a href="index.html">
-← Back Home
-</a>
-
-</div>
-
-</div>
-
-</body>
-education-result/
-│── index.html
-│── search.html
-│── result.html
-│── style.css
-│── script.js
-│── print.html
-│── about.html
-│── notice.html
-│── contact.html
-│── 404.html
-│
-├── assets/
-│   ├── logo.png
-│   ├── banner.jpg
-│   └── favicon.ico
-│
-├── css/
-│   ├── responsive.css
-│   └── print.css
-│
-├── js/
-│   ├── app.js
-│   └── validation.js
-│
-└── data/
-    └── results.json
-
-
-  
-</html>
-
-education-result/
-│── index.html
-│── search.html
-│── result.html
-│── style.css
-│── script.js
-│── about.html
-│── notice.html
-│── contact.html
-│── print.html
-│── privacy.html
-│── terms.html
-│── 404.html
-│── sitemap.xml
-│── robots.txt
-│── favicon.ico
-│
-├── assets/
-│   ├── images/
-│   │   ├── logo.png
-│   │   ├── banner.jpg
-│   │   ├── student.png
-│   │   └── background.jpg
-│   │
-│   ├── css/
-│   │   ├── responsive.css
-│   │   ├── print.css
-│   │   └── animation.css
-│   │
-│   └── js/
-│       ├── app.js
-│       ├── search.js
-│       ├── validation.js
-│       └── print.js
-│
-├── data/
-│   └── results.json
-│
-└── admin/
-    ├── index.html
-    ├── dashboard.html
-    ├── login.html
-    ├── add-result.html
-    ├── edit-result.html
-    ├── delete-result.html
-    ├── students.html
-    └── settings.html
-  education-result/
-│
-├── index.html
-├── search.html
-├── result.html
-├── about.html
-├── notice.html
-├── contact.html
-├── faq.html
-├── privacy.html
-├── terms.html
-├── print.html
-├── 404.html
-├── style.css
-├── responsive.css
-├── print.css
-├── script.js
-├── search.js
-├── result.js
-├── validation.js
-├── favicon.ico
-├── manifest.json
-├── robots.txt
-├── sitemap.xml
-│
-├── assets/
-│   ├── logo.png
-│   ├── banner.jpg
-│   ├── background.jpg
-│   ├── student.png
-│   ├── icons/
-│   └── fonts/
-│
-├── data/
-│   ├── students.json
-│   ├── results.json
-│   └── boards.json
-│
-├── admin/
-│   ├── login.html
-│   ├── dashboard.html
-│   ├── add-result.html
-│   ├── edit-result.html
-│   ├── delete-result.html
-│   ├── students.html
-│   ├── notices.html
-│   └── settings.html
-│
-└── api/
-    ├── search.php
-    ├── login.php
-    ├── logout.php
-    ├── add-result.php
-    ├── update-result.php
-    ├── delete-result.php
-    └── database.php
-
-
-  
+CREATE DATABASE education_result;
+
+USE education_result;
+
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    exam VARCHAR(20) NOT NULL,
+    year INT NOT NULL,
+    board VARCHAR(50) NOT NULL,
+    roll VARCHAR(20) NOT NULL UNIQUE,
+    registration VARCHAR(30) NOT NULL UNIQUE,
+    student_name VARCHAR(100) NOT NULL,
+    father_name VARCHAR(100),
+    mother_name VARCHAR(100),
+    institute VARCHAR(150),
+    group_name VARCHAR(50),
+    gpa DECIMAL(3,2),
+    result_status VARCHAR(20),
+    bangla VARCHAR(5),
+    english VARCHAR(5),
+    mathematics VARCHAR(5),
+    science VARCHAR(5),
+    ict VARCHAR(5),
+    religion VARCHAR(5),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO students (
+exam,
+year,
+board,
+roll,
+registration,
+student_name,
+father_name,
+mother_name,
+institute,
+group_name,
+gpa,
+result_status,
+bangla,
+english,
+mathematics,
+science,
+ict,
+religion
+)
+VALUES
+(
+'SSC',
+2025,
+'Dhaka',
+'123456',
+'654321',
+'Rahim Ahmed',
+'Abdul Karim',
+'Ayesha Begum',
+'ABC High School',
+'Science',
+'5.00',
+'PASSED',
+'A+',
+'A+',
+'A+',
+'A+',
+'A+',
+'A+'
+);
